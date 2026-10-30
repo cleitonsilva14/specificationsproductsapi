@@ -4,8 +4,10 @@ package io.dev.specificationsproductsapi.controller;
 import io.dev.specificationsproductsapi.model.Product;
 import io.dev.specificationsproductsapi.queryfilter.ProductQueryfilter;
 import io.dev.specificationsproductsapi.repository.ProductRepository;
+import io.dev.specificationsproductsapi.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +19,8 @@ public class ProductController {
 
     private final ProductRepository productRepository;
 
+    private final ProductService productService;
+
     /**
      * Se você estiver usando o Springdoc OpenAPI, basta adicionar a anotação @ParameterObject do Springdoc antes do seu
      * objeto de filtro no Controller. Isso diz ao Swagger para "espalhar" as propriedades do objeto como parâmetros
@@ -25,6 +29,11 @@ public class ProductController {
     @GetMapping
     public List<Product> findAll(@ParameterObject ProductQueryfilter productQueryfilter) {
         return productRepository.findAll(productQueryfilter.getSpecification());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> search(@ParameterObject ProductQueryfilter productQueryfilter) {
+        return ResponseEntity.ok(productService.search(productQueryfilter.getSpecification()));
     }
 
     @PostMapping

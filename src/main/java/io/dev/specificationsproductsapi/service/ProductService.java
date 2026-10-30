@@ -4,6 +4,7 @@ package io.dev.specificationsproductsapi.service;
 import io.dev.specificationsproductsapi.model.Product;
 import io.dev.specificationsproductsapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,4 +27,7 @@ public class ProductService {
         return productRepository.saveAll(products);
     }
 
+    public List<Product> search(Specification<Product> specification) {
+        return productRepository.findAll(specification);
+    }
 }
