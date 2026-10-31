@@ -4,6 +4,7 @@ import io.dev.specificationsproductsapi.model.Product;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.Instant;
 import java.util.Locale;
 
 public class ProductSpec {
@@ -33,6 +34,25 @@ public class ProductSpec {
                 return null;
             }
             return criteriaBuilder.like(root.get("description"), "%" + description.toLowerCase(Locale.ROOT) + "%");
+        });
+    }
+    public static Specification<Product> linkIdContains(String linkId) {
+        return ((root, query, criteriaBuilder) ->  {
+            if (ObjectUtils.isEmpty(linkId)) {
+                return null;
+            }
+            return criteriaBuilder
+                    .like(root.get("link_id"), "%" + linkId.toLowerCase(Locale.ROOT) + "%");
+        });
+    }
+
+    // ate
+    public static Specification<Product> createdBefore(Instant endDate) {
+        return ((root, query, criteriaBuilder) ->  {
+            if (ObjectUtils.isEmpty(endDate)) {
+                return null;
+            }
+            return criteriaBuilder.greaterThanOrEqualTo(root.get("created_at"), endDate);
         });
     }
 
