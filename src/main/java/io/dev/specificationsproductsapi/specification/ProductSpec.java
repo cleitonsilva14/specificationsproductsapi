@@ -42,7 +42,7 @@ public class ProductSpec {
                 return null;
             }
             return criteriaBuilder
-                    .like(root.get("link_id"), "%" + linkId.toLowerCase(Locale.ROOT) + "%");
+                    .like(root.get("linkId"), "%" + linkId.toLowerCase(Locale.ROOT) + "%");
         });
     }
 
@@ -52,7 +52,7 @@ public class ProductSpec {
             if (ObjectUtils.isEmpty(endDate)) {
                 return null;
             }
-            return criteriaBuilder.greaterThanOrEqualTo(root.get("created_at"), endDate);
+            return criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), endDate);
         });
     }
 
